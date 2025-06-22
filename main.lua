@@ -4,22 +4,37 @@ lk = love.keyboard
 la = love.audio
 le = love.event
 
+-- general libraries
+-- vec = require 'libs/vector'
+colors = require 'libs/colors'
+
+-- collision
+bump = require 'libs/bump'
+world = bump.newWorld()
+
 -- resolution
 push = require 'libs/push'
 gameW, gameH = 800, 450
 local windowW, windowH = lw.getDesktopDimensions()
 local isFullscreen = false
 push:setupScreen(gameW, gameH, windowW * 0.5, windowH * 0.5)
+lg.setDefaultFilter('nearest', 'nearest')
 
 -- assets
 assets = require('libs/cargo').init('assets')
+
+-- classes
+Class = require 'libs/class'
+Entity = require 'classes/Entity'
+Player = require 'classes/Player'
 
 -- states
 gamestate = require 'libs/gamestate'
 startScreen = require 'states.startScreen'
 gameScreen = require 'states.gameScreen'
 
--- classes
+-- game vars
+telekinesisRadius = 100
 
 function love.load()
     lw.setTitle('Telekinese')
