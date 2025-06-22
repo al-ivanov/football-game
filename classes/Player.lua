@@ -1,21 +1,21 @@
 local Player = Class{ __includes = Entity }
 
 function Player:init(world, x, y, sprite, color)
+    -- visual
     self.id = 'player'
     self.sprite = sprite
     self.color = color
     
+    -- technical
     self.spd = 7
-    self.invinc = false
-    self.isGrabbing = false
-    self.grabbedEnemies = {}
+    self.grabbedBalls = {}
     
     Entity.init(self, world, x, y, sprite:getWidth(), sprite:getHeight())
-    self.world:add(self, self:getRect())
     
+    -- collision
+    self.world:add(self, self:getRect()) 
     self.filter = function(item, other)
-        if (other.id == 'enemy' or other.id == 'projectile'
-                or other.id == 'player') then
+        if (other.id == 'player') then
             return 'cross'
         end
         
@@ -23,17 +23,35 @@ function Player:init(world, x, y, sprite, color)
     end
 end
 
-function Player:move(dx, dy)
-    self.x, self.y = self.world:move(self, self.x + dx * self.spd, 
-                                            self.y + dy * self.spd, self.filter)
+function Player:update(dt, dx, dy)
+    local actualX, actualY, cols, len = self.world:move(self, self.pos.x + dx * self.spd, 
+                                            self.pos.y + dy * self.spd, self.filter)
+    
+    -- if isGrabbing, attempt to move all grabbed balls with you
+    
+    self.pos.x, self.pos.y = actualX, actualY
+end
+
+function Player:launchAll()
+    -- for all grabbed balls, get self.pos - other.pos. Set ball velocityVector to that. Remove them from grabbed balls
+end
+
+function Player:action(balls)
+    if (#self.grabbedBalls > 0) then
+        self:launchAll()
+    else
+        -- check thru all balls and see if they're in range. If so, set their vel vec to 0 and push them all into grabbedBalls
+    end
 end
 
 function Player:draw()
+    -- telekinesis field
     lg.setColor(self.color[1], self.color[2], self.color[3], 0.5)
-    lg.circle('fill', self.x + self.w / 2, self.y + self.h / 2, telekinesisRadius)
+    lg.circle('fill', self.pos.x + self.w / 2, self.pos.y + self.h / 2, telekinesisRadius)
     
+    -- character sprite
     lg.setColor(self.color)
-    lg.draw(self.sprite, self.x, self.y)
+    lg.draw(self.sprite, self.pos.x, self.pos.y)
     
     lg.setColor(colors.white)
 end
