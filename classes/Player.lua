@@ -42,29 +42,38 @@ function Player:update(dt, dx, dy)
     
     -- if isGrabbing, attempt to move all grabbed balls with you
     for i,ball in ipairs(self.grabbedBalls) do
-        ball.velVec = vec(dx * self.spd, dy * self.spd)
+        if (self.pos - ball.pos):len() < telekinesisRadius then
+            ball.velVec = vec(dx * self.spd, dy * self.spd)
+        else
+            ball.velVec = (self.pos - ball.pos):normalized() * 12
+        end
     end
     
     self.pos.x, self.pos.y = actualX, actualY
 end
 
 function Player:launchAll()
-    -- for all grabbed balls, get self.pos - other.pos. Set ball velocityVector to that. Remove them from grabbed balls
+    for i = #self.grabbedBalls, 1, -1 do
+        local ball = self.grabbedBalls[i]
+        ball.velVec = (ball.pos - self.pos):normalized() * launchStr
+        ball.isHold = 0
+        table.remove(self.grabbedBalls, i)
+    end
 end
 
 
 function Player:grabBalls(balls)
     for i,ball in ipairs(balls) do
-        if (ball.pos - self.pos):len() < telekinesisRadius then
+        if ball.isHold == 0 and (ball.pos - self.pos):len() < telekinesisRadius then
             ball.velVec.x, ball.velVec.y = 0, 0
-            ball.status = 1
+            ball.isHold = 1
             table.insert(self.grabbedBalls, ball)
         end
     end
 end
 
 function Player:action(balls)
-    if (#self.grabbedBalls > 0) then
+    if #self.grabbedBalls > 0 then
         self:launchAll()
     else
         self:grabBalls(balls)

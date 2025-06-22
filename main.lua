@@ -37,7 +37,8 @@ gameScreen = require 'states.gameScreen'
 
 -- game vars
 telekinesisRadius = 100
-kickStr = 5
+kickStr = 3
+launchStr = 60
 debug = true
 
 function love.load()
@@ -50,11 +51,11 @@ function love.load()
 end
 
 function love.keypressed(k)
-    if (k == 'f') then
+    if k == 'f' then
         push:switchFullscreen()
-    elseif (k == 'q' or k == 'escape') then
+    elseif k == 'q' or k == 'escape' then
         le.quit()
-    elseif (k == 'm') then
+    elseif k == 'm' then
     
     end
 end
