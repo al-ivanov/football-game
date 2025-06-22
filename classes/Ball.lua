@@ -10,6 +10,7 @@ function Ball:init(world, x, y, sprite)
     Entity.init(self, world, x, y, sprite:getWidth(), sprite:getHeight())
 
     self.world:add(self, self:getRect())
+    self.debugColor = colors.green
 
     self.filter = nil
 end
@@ -19,9 +20,9 @@ function Ball:update()
         local actualX, actualY, cols, len = world:move(self, self.pos.x + self.velVec.x, self.pos.y + self.velVec.y)
 
         for i=1, len do
-            local otherObj = cols[i].otherObj
-            if otherObj.id == 'player' then
-                
+            local otherObj = cols[i].other
+            if otherObj.id == 'wall' then
+                -- bounce 
             end
         end
 
@@ -31,6 +32,10 @@ end
 
 function Ball:draw()
     lg.draw(self.sprite, self.pos.x, self.pos.y)
+    if debug then
+        lg.setColor(self.debugColor[1], self.debugColor[2], self.debugColor[3], 0.8)
+        lg.rectangle('fill', self.pos.x, self.pos.y, self.w, self.h)
+    end
 end
 
 

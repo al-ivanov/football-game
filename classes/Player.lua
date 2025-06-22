@@ -26,6 +26,15 @@ end
 function Player:update(dt, dx, dy)
     local actualX, actualY, cols, len = self.world:move(self, self.pos.x + dx * self.spd, 
                                             self.pos.y + dy * self.spd, self.filter)
+
+    for i=1,len do
+        local otherObj = cols[i].other
+
+        if otherObj.id == 'ball' then
+            -- kick ball
+            otherObj.debugColor = colors.red
+        end
+    end
     
     -- if isGrabbing, attempt to move all grabbed balls with you
     
@@ -46,12 +55,18 @@ end
 
 function Player:draw()
     -- telekinesis field
-    lg.setColor(self.color[1], self.color[2], self.color[3], 0.5)
-    lg.circle('fill', self.pos.x + self.w / 2, self.pos.y + self.h / 2, telekinesisRadius)
+    --lg.setColor(self.color[1], self.color[2], self.color[3], 0.5)
+    --lg.circle('fill', self.pos.x + self.w / 2, self.pos.y + self.h / 2, telekinesisRadius)
     
     -- character sprite
     lg.setColor(self.color)
     lg.draw(self.sprite, self.pos.x, self.pos.y)
+
+    -- debugAdd commentMore actions
+    if debug then
+        lg.setColor(colors.red[1], colors.red[2], colors.red[3], 0.8)
+        lg.rectangle('fill', self.pos.x, self.pos.y, self.w, self.h)
+    end
     
     lg.setColor(colors.white)
 end

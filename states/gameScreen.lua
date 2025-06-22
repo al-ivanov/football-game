@@ -35,14 +35,12 @@ end
 
 function gameScreen:draw()
     push:start()
-    
+    lg.rectangle('fill', 0, 0, gameW, gameH)
     p1:draw()
     p2:draw()
     
     -- draw balls
     ball1:draw()
-    
-    lg.print('Game Screen', 0, 0)
     
     push:finish()
 end
