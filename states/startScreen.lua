@@ -7,7 +7,9 @@ end
 function startScreen:draw()
     push:start()
     
-    lg.print('Start Screen', 0, 0)
+    lg.print('Telekinessball', 0, 0)
+
+    lg.print('Press any button', 0, 200)
     
     push:finish()
 end

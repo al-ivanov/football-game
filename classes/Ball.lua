@@ -19,6 +19,15 @@ function Ball:update()
     if (self.isHold == 0) then
         local actualX, actualY, cols, len = world:move(self, self.pos.x + self.velVec.x, self.pos.y + self.velVec.y)
 
+        if self.velVec:len() ~= 0 then
+            self.velVec = self.velVec * 0.9
+        end
+
+        -- if magnitude is < some val, set it to 0,0
+        if self.velVec:len() <  0.1 then
+            self.velVec.x, self.velVec.y = 0, 0
+        end
+
         for i=1, len do
             local otherObj = cols[i].other
             if otherObj.id == 'wall' then

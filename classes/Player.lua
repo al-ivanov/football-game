@@ -32,7 +32,7 @@ function Player:update(dt, dx, dy)
 
         if otherObj.id == 'ball' then
             -- kick ball
-            otherObj.debugColor = colors.red
+            otherObj.velVec = (otherObj.pos - self.pos):normalized() * 5
         end
     end
     
