@@ -37,6 +37,7 @@ gameScreen = require 'states.gameScreen'
 
 -- game vars
 telekinesisRadius = 100
+kickStr = 5
 debug = true
 
 function love.load()

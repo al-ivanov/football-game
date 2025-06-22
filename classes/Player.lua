@@ -24,19 +24,26 @@ function Player:init(world, x, y, sprite, color)
 end
 
 function Player:update(dt, dx, dy)
+    if dx ~= 0 or dy ~= 0 then
+        local rss = math.sqrt(math.pow(dx, 2) + math.pow(dy, 2))
+        dx, dy = dx / rss, dy  / rss
+    end
+
     local actualX, actualY, cols, len = self.world:move(self, self.pos.x + dx * self.spd, 
                                             self.pos.y + dy * self.spd, self.filter)
 
     for i=1,len do
         local otherObj = cols[i].other
 
-        if otherObj.id == 'ball' then
-            -- kick ball
-            otherObj.velVec = (otherObj.pos - self.pos):normalized() * 5
+        if otherObj.id == 'ball' and otherObj.isHold == 0 then
+            otherObj.velVec = (otherObj.pos - self.pos):normalized() * kickStr
         end
     end
     
     -- if isGrabbing, attempt to move all grabbed balls with you
+    for i,ball in ipairs(self.grabbedBalls) do
+        ball.velVec = vec(dx * self.spd, dy * self.spd)
+    end
     
     self.pos.x, self.pos.y = actualX, actualY
 end
@@ -45,18 +52,29 @@ function Player:launchAll()
     -- for all grabbed balls, get self.pos - other.pos. Set ball velocityVector to that. Remove them from grabbed balls
 end
 
+
+function Player:grabBalls(balls)
+    for i,ball in ipairs(balls) do
+        if (ball.pos - self.pos):len() < telekinesisRadius then
+            ball.velVec.x, ball.velVec.y = 0, 0
+            ball.status = 1
+            table.insert(self.grabbedBalls, ball)
+        end
+    end
+end
+
 function Player:action(balls)
     if (#self.grabbedBalls > 0) then
         self:launchAll()
     else
-        -- check thru all balls and see if they're in range. If so, set their vel vec to 0 and push them all into grabbedBalls
+        self:grabBalls(balls)
     end
 end
 
 function Player:draw()
     -- telekinesis field
-    --lg.setColor(self.color[1], self.color[2], self.color[3], 0.5)
-    --lg.circle('fill', self.pos.x + self.w / 2, self.pos.y + self.h / 2, telekinesisRadius)
+    lg.setColor(self.color[1], self.color[2], self.color[3], 0.5)
+    lg.circle('fill', self.pos.x + self.w / 2, self.pos.y + self.h / 2, telekinesisRadius)
     
     -- character sprite
     lg.setColor(self.color)
