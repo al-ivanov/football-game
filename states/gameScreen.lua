@@ -6,9 +6,11 @@ local balls = {}
 
 local p1 = Player(world, 300, 300, assets.sprites.player, colors.aqua)
 local p2 = Player(world, 500, 300, assets.sprites.player, colors.orange)
+local ball1 = Ball(world, 400, 200, assets.sprites.baseball)
 
 function gameScreen:enter()
     --sti.new('assets/maps/map1.lua', { 'bump' })
+    lg.setBackgroundColor(1, 1, 1)
 end
 
 function gameScreen:update(dt)
@@ -28,6 +30,7 @@ function gameScreen:update(dt)
     -- p2 input
     
     -- update balls
+    ball1:update()
 end
 
 function gameScreen:draw()
@@ -37,6 +40,7 @@ function gameScreen:draw()
     p2:draw()
     
     -- draw balls
+    ball1:draw()
     
     lg.print('Game Screen', 0, 0)
     
@@ -49,7 +53,7 @@ function gameScreen:keypressed(k)
     end
     
     if (k == 'enter') then
-        p1:action(balls)
+        p2:action(balls)
     end
 end
 

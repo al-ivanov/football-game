@@ -28,6 +28,7 @@ assets = require('libs/cargo').init('assets')
 Class = require 'libs/class'
 Entity = require 'classes/Entity'
 Player = require 'classes/Player'
+Ball = require 'classes/Ball'
 
 -- states
 gamestate = require 'libs/gamestate'
