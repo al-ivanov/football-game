@@ -1,7 +1,6 @@
 local Entity = Class{}
 
-function Entity:init(world, x, y, w, h)
-    self.world = world
+function Entity:init(x, y, w, h)
     self.pos = vec(x, y)
     self.w = w
     self.h = h

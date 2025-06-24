@@ -9,6 +9,9 @@ le = love.event
 vec = require 'libs/vector'
 colors = require 'libs/colors'
 
+-- visual
+anim8 = require 'libs/anim8'
+
 -- collision
 bump = require 'libs/bump'
 world = bump.newWorld()
@@ -18,7 +21,7 @@ world = bump.newWorld()
 push = require 'libs/push'
 gameW, gameH = 800, 450
 local windowW, windowH = lw.getDesktopDimensions()
-push:setupScreen(gameW, gameH, windowW * 0.5, windowH * 0.5)
+push:setupScreen(gameW, gameH, windowW * 0.7, windowH * 0.7)
 lg.setDefaultFilter('nearest', 'nearest')
 
 -- assets
@@ -38,7 +41,7 @@ gameScreen = require 'states.gameScreen'
 -- game vars
 telekinesisRadius = 100
 kickStr = 3
-launchStr = 60
+launchStr = 45
 debug = true
 
 function love.load()

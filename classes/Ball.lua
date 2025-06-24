@@ -1,21 +1,21 @@
 local Ball = Class{ __includes = Entity }
 
-function Ball:init(world, x, y, sprite)
+function Ball:init(x, y, sprite)
     self.id = 'ball'
     self.sprite = sprite
     self.velVec = vec(0, 0)
     self.isHold = 0
     self.friction = 0.1
 
-    Entity.init(self, world, x, y, sprite:getWidth(), sprite:getHeight())
+    Entity.init(self, x, y, sprite:getWidth(), sprite:getHeight())
 
     -- collision
-    self.world:add(self, self:getRect())
+    world:add(self, self:getRect())
 
     self.filter = nil
 end
 
-function Ball:update()
+function Ball:update(dt)
     local actualX, actualY, cols, len = world:move(self, self.pos.x + self.velVec.x, self.pos.y + self.velVec.y)
     if self.isHold == 0 then
         -- decelerate
@@ -32,7 +32,7 @@ function Ball:update()
         -- bounce on walls
         for i=1, len do
             local otherObj = cols[i].other
-            if otherObj.id == 'wall' then
+            if otherObj.id == 'wall' or otherObj.id == 'player' then
                 -- bounce
             end
         end
