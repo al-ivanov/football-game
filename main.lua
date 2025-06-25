@@ -37,6 +37,7 @@ Class = require 'libs/class'
 Entity = require 'classes/Entity'
 Player = require 'classes/Player'
 Ball = require 'classes/Ball'
+Wall = require 'classes/Wall'
 
 -- states
 gamestate = require 'libs/gamestate'

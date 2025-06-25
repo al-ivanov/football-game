@@ -5,18 +5,31 @@ local spritesheet = assets.sprites.spritesheet
 local g = anim8.newGrid(32, 32, spritesheet:getWidth(), spritesheet:getHeight())
 local plAnims = {
                 anim8.newAnimation(g('1-2', 1), 0.2),
-                anim8.newAnimation(g('3-4', 1), 0.2)
+                anim8.newAnimation(g('3-4', 1), 0.1)
                 }
 
 -- game vars
-local arena = nil
-local balls = {Ball(400, 200, assets.sprites.baseball)}
+local walls = {
+    Wall(-5, 225, 10, 450),
+    Wall(805, 225, 10, 450),
+    Wall(400, -5, 800, 10),
+    Wall(400, 455, 800, 10),
+}
+local balls = {
+    Ball(400, 125, assets.sprites.baseball),
+    Ball(400, 325, assets.sprites.baseball),
+}
 
-local p1 = Player(300, 300, spritesheet, plAnims, colors.aqua)
-local p2 = Player(500, 300, spritesheet, plAnims, colors.orange)
+local p1 = Player(300, 225, spritesheet, plAnims, colors.aqua)
+local p2 = Player(500, 325, spritesheet, plAnims, colors.orange)
+p2.facing = -1
+
+function gameScreen:reset()
+    screen:setShake(10)
+end
 
 function gameScreen:enter()
-    screen:setShake(10)
+    self.reset()
 end
 
 function gameScreen:update(dt)
@@ -53,8 +66,7 @@ function gameScreen:draw()
     effect(function ()
 
         screen:apply()
-
-        lg.rectangle('fill', 0, 0, gameW, gameH)
+        lg.draw(assets.sprites.field1, 0, 0)
         p1:draw()
         p2:draw()
     end)

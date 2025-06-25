@@ -1,13 +1,13 @@
 local Ball = Class{ __includes = Entity }
 
-function Ball:init(x, y, sprite)
+function Ball:init(cx, cy, sprite)
     self.id = 'ball'
     self.sprite = sprite
     self.velVec = vec(0, 0)
     self.isHold = 0
     self.friction = 0.1
 
-    Entity.init(self, x, y, sprite:getWidth(), sprite:getHeight())
+    Entity.init(self, cx - sprite:getWidth() / 2, cy - sprite:getHeight() / 2, sprite:getWidth(), sprite:getHeight())
 
     -- collision
     world:add(self, self:getRect())
@@ -20,7 +20,7 @@ function Ball:update(dt)
     if self.isHold == 0 then
         -- decelerate
         if self.velVec:len() ~= 0 then
-            self.velVec = self.velVec * 0.95
+            self.velVec = self.velVec * 0.97
         end
 
         -- if magnitude is < some val, set it to 0,0
@@ -31,9 +31,20 @@ function Ball:update(dt)
 
         -- bounce on walls
         for i=1, len do
-            local otherObj = cols[i].other
+            local col = cols[i]
+            local otherObj = col.other
             if otherObj.id == 'wall' or otherObj.id == 'player' then
                 -- bounce
+                if col.normal.x == 0 then
+                    self.velVec.y = self.velVec.y * - 1
+                else 
+                    self.velVec.x = self.velVec.x * - 1
+                end
+            elseif otherObj.id == 'ball' then
+                --trade
+                local tx, ty = otherObj.velVec.x, otherObj.velVec.y
+                otherObj.velVec.x, otherObj.velVec.y = self.velVec.x, self.velVec.y
+                self.velVec.x, self.velVec.y = tx, ty
             end
         end
     end -- if ball is active

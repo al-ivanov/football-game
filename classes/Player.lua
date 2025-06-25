@@ -1,6 +1,6 @@
 local Player = Class{ __includes = Entity }
 
-function Player:init(x, y, sheet, anims, color)
+function Player:init(cx, cy, sheet, anims, color)
     -- visual
     self.id = 'player'
     self.sheet = sheet
@@ -13,7 +13,7 @@ function Player:init(x, y, sheet, anims, color)
     self.spd = 4
     self.grabbedBalls = {}
     
-    Entity.init(self, x, y, 32, 32)
+    Entity.init(self, cx - 16, cy - 16, 32, 32)
     
     -- collision
     world:add(self, self:getRect()) 
