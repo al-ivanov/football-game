@@ -22,6 +22,7 @@ end
 
 function gameScreen:update(dt)
     local dx, dy = 0, 0
+    screen:update(dt)
     
     -- p1 input
     if (lk.isDown('w')) then dy = dy - 1 end
@@ -49,10 +50,16 @@ end
 
 function gameScreen:draw()
     push:start()
-    lg.rectangle('fill', 0, 0, gameW, gameH)
-    p1:draw()
-    p2:draw()
-    
+
+    effect(function ()
+
+        screen:apply()
+
+        lg.rectangle('fill', 0, 0, gameW, gameH)
+        p1:draw()
+        p2:draw()
+    end)
+
     -- draw balls
     for i,ball in ipairs(balls) do
         ball:draw()

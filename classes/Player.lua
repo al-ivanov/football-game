@@ -7,9 +7,10 @@ function Player:init(x, y, sheet, anims, color)
     self.anims = anims
     self.curAnim = anims[1]
     self.color = color
+    self.facing = 1
     
     -- technical
-    self.spd = 3
+    self.spd = 4
     self.grabbedBalls = {}
     
     Entity.init(self, x, y, 32, 32)
@@ -34,6 +35,12 @@ function Player:update(dt, dx, dy)
         self.curAnim = self.anims[2]
     else
         self.curAnim = self.anims[1]
+    end
+
+    if dx < 0 then
+        self.facing = -1
+    elseif dx > 0 then
+        self.facing = 1
     end
 
     local actualX, actualY, cols, len = world:move(self, self.pos.x + dx * self.spd, 
@@ -71,6 +78,9 @@ function Player:launchAll()
         ball.isHold = 0
         table.remove(self.grabbedBalls, i)
     end
+
+    screen:setShake(20)
+    screen:setShake(10)
 end
 
 function Player:grabBalls(balls)
@@ -99,7 +109,7 @@ function Player:draw()
     -- character sprite
     lg.setColor(self.color)
     --lg.draw(self.sprite, self.pos.x, self.pos.y)
-    self.curAnim:draw(self.sheet, self.pos.x, self.pos.y)
+    self.curAnim:draw(self.sheet, self.pos.x + self.w / 2, self.pos.y, 0, self.facing, 1, self.w / 2)
 
     -- debug
     if debug then
