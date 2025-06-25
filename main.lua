@@ -30,6 +30,8 @@ anim8 = require 'libs/anim8'
 screen = require 'libs/shack'
 screen:setDimensions(push:getDimensions())
 
+--audio
+
 -- classes
 Class = require 'libs/class'
 Entity = require 'classes/Entity'
@@ -42,15 +44,15 @@ startScreen = require 'states.startScreen'
 gameScreen = require 'states.gameScreen'
 
 -- game vars
-telekinesisRadius = 100
-kickStr = 3
+telekinesisRadius = 80
+kickStr = 2
 launchStr = 45
-debug = true
+debug = false
 
 function love.load()
     lw.setTitle('Telekinessball')
     
-    lg.setFont(assets.fonts.courier_prime(48))
+    lg.setFont(assets.fonts.courier_prime(72))
     
     gamestate.registerEvents()
     gamestate.switch(startScreen)

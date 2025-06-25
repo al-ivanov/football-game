@@ -16,8 +16,7 @@ local p1 = Player(300, 300, spritesheet, plAnims, colors.aqua)
 local p2 = Player(500, 300, spritesheet, plAnims, colors.orange)
 
 function gameScreen:enter()
-    --sti.new('assets/maps/map1.lua', { 'bump' })
-    lg.setBackgroundColor(1, 1, 1)
+    screen:setShake(10)
 end
 
 function gameScreen:update(dt)

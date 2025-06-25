@@ -80,7 +80,6 @@ function Player:launchAll()
     end
 
     screen:setShake(20)
-    screen:setShake(10)
 end
 
 function Player:grabBalls(balls)
