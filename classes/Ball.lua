@@ -24,7 +24,7 @@ function Ball:update(dt)
         end
 
         -- if magnitude is < some val, set it to 0,0
-        if self.velVec:len() <  0.1 then
+        if self.velVec:len() <  0.5 then
             self.velVec.x, self.velVec.y = 0, 0
         end
 
@@ -40,11 +40,17 @@ function Ball:update(dt)
                 else 
                     self.velVec.x = self.velVec.x * - 1
                 end
+                if self.velVec:len() > 5 then
+                    exp3:play()
+                end
             elseif otherObj.id == 'ball' then
                 --trade
-                local tx, ty = otherObj.velVec.x, otherObj.velVec.y
+                --[[local tx, ty = otherObj.velVec.x, otherObj.velVec.y
                 otherObj.velVec.x, otherObj.velVec.y = self.velVec.x, self.velVec.y
-                self.velVec.x, self.velVec.y = tx, ty
+                self.velVec.x, self.velVec.y = tx, ty]]
+                local sumVec = self.velVec + otherObj.velVec
+                self.velVec.x, self.velVec.y = sumVec.x * -0.3, sumVec.y * -0.3
+                otherObj.velVec.x, otherObj.velVec.y = sumVec.x * 0.8, sumVec.y * 0.8
             end
         end
     end -- if ball is active

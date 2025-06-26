@@ -31,6 +31,18 @@ screen = require 'libs/shack'
 screen:setDimensions(push:getDimensions())
 
 --audio
+require 'libs/slam'
+bgm = la.newSource('assets/audio/SwingJeDing.mp3', 'stream')
+bgm:setLooping(true)
+bgm:setVolume(0.3)
+bgm:play()
+
+exp3 = la.newSource('assets/audio/exp3.wav', 'static')
+exp8 = la.newSource('assets/audio/exp8.wav', 'static')
+pow3 = la.newSource('assets/audio/pow3.wav', 'static')
+foot3 = la.newSource('assets/audio/foot3.wav', 'static')
+foot3:setVolume(0.3)
+foot3:setLooping(true)
 
 -- classes
 Class = require 'libs/class'
@@ -53,7 +65,7 @@ debug = false
 function love.load()
     lw.setTitle('Telekinessball')
     
-    lg.setFont(assets.fonts.courier_prime(72))
+    lg.setFont(assets.fonts.Graph35pix(64))
     
     gamestate.registerEvents()
     gamestate.switch(startScreen)
