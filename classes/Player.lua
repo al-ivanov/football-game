@@ -1,12 +1,14 @@
 local Player = Class{ __includes = Entity }
 
-function Player:init(cx, cy, sheet, anims, color)
+function Player:init(cx, cy, sheet, anims, color, walkSnd)
     -- visual
     self.id = 'player'
     self.sheet = sheet
     self.anims = anims
     self.curAnim = anims[1]
     self.color = color
+    self.walkSnd = walkSnd
+    self.walkSndPlaying = false
     self.facing = 1
     
     -- technical
@@ -33,8 +35,16 @@ function Player:update(dt, dx, dy)
         dx, dy = dx / rss, dy  / rss
         
         self.curAnim = self.anims[2]
+        if not self.walkSndPlaying then
+            self.walkSnd:play()
+            self.walkSndPlaying = true
+        end
     else
         self.curAnim = self.anims[1]
+        if self.walkSndPlaying then
+            self.walkSnd:pause()
+            self.walkSndPlaying = false
+        end
     end
 
     if dx < 0 then
@@ -89,6 +99,7 @@ function Player:grabBalls(balls)
         if ball.isHold == 0 and (ball:getCenter() - self:getCenter()):len() < telekinesisRadius then
             ball.velVec.x, ball.velVec.y = 0, 0
             ball.isHold = 1
+            ball.auraColor = self.color
             table.insert(self.grabbedBalls, ball)
             ballGrabbed = true
         end

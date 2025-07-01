@@ -40,9 +40,14 @@ bgm:play()
 exp3 = la.newSource('assets/audio/exp3.wav', 'static')
 exp8 = la.newSource('assets/audio/exp8.wav', 'static')
 pow3 = la.newSource('assets/audio/pow3.wav', 'static')
-foot3 = la.newSource('assets/audio/foot3.wav', 'static')
-foot3:setVolume(0.3)
-foot3:setLooping(true)
+
+step3 = la.newSource('assets/audio/stairs3.wav', 'static')
+step3:setVolume(0.5)
+step3:setLooping(true)
+
+step4 = la.newSource('assets/audio/stairs4.wav', 'static')
+step4:setVolume(0.5)
+step4:setLooping(true)
 
 -- classes
 Class = require 'libs/class'

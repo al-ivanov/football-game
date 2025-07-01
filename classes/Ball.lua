@@ -5,7 +5,8 @@ function Ball:init(cx, cy, sprite)
     self.sprite = sprite
     self.velVec = vec(0, 0)
     self.isHold = 0
-    self.friction = 0.1
+    self.auraColor = colors.white
+    self.auraRad = 35
 
     Entity.init(self, cx - sprite:getWidth() / 2, cy - sprite:getHeight() / 2, sprite:getWidth(), sprite:getHeight())
 
@@ -15,9 +16,15 @@ function Ball:init(cx, cy, sprite)
     self.filter = nil
 end
 
-function Ball:update(dt)
+function Ball:update(dt, p1, p2)
     local actualX, actualY, cols, len = world:move(self, self.pos.x + self.velVec.x, self.pos.y + self.velVec.y)
     if self.isHold == 0 then
+        if (p1:getCenter() - self:getCenter()):len() < telekinesisRadius or (p2:getCenter() - self:getCenter()):len() < telekinesisRadius then
+            self.auraRad = 50
+        else
+            self.auraRad = 30
+        end
+
         -- decelerate
         if self.velVec:len() ~= 0 then
             self.velVec = self.velVec * 0.97
@@ -49,7 +56,7 @@ function Ball:update(dt)
                 otherObj.velVec.x, otherObj.velVec.y = self.velVec.x, self.velVec.y
                 self.velVec.x, self.velVec.y = tx, ty]]
                 local sumVec = self.velVec + otherObj.velVec
-                self.velVec.x, self.velVec.y = sumVec.x * -0.3, sumVec.y * -0.3
+                self.velVec.x, self.velVec.y = sumVec.x * -0.5, sumVec.y * -0.5
                 otherObj.velVec.x, otherObj.velVec.y = sumVec.x * 0.8, sumVec.y * 0.8
             end
         end
@@ -59,7 +66,12 @@ function Ball:update(dt)
 end
 
 function Ball:draw()
-    lg.draw(self.sprite, self.pos.x, self.pos.y)
+    -- lg.draw(self.sprite, self.pos.x, self.pos.y)
+    lg.setColor(self.auraColor[1], self.auraColor[2], self.auraColor[3], 0.7)
+    lg.circle('fill', self.pos.x + self.w / 2, self.pos.y + self.h / 2, self.auraRad)
+
+    lg.setColor(colors.white)
+    lg.draw(self.sprite, self.pos.x + self.w / 2, self.pos.y + self.h / 2, self.velVec:len() % (2 * math.pi), 1, 1, self.w / 2, self.h / 2)
     if debug then
         if self.isHold == 0 then
             lg.setColor(colors.green[1], colors.green[2], colors.green[3], 0.8)

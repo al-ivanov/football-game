@@ -26,8 +26,8 @@ local balls = {
     Ball(400, 425, assets.sprites.baseball),
 }
 
-local p1 = Player(300, 225, spritesheet, plAnims, colors.aqua)
-local p2 = Player(500, 325, spritesheet, plAnims, colors.orange)
+local p1 = Player(300, 225, spritesheet, plAnims, colors.aqua, step3)
+local p2 = Player(500, 325, spritesheet, plAnims, colors.orange, step4)
 p2.facing = -1
 
 function gameScreen:reset()
@@ -64,7 +64,7 @@ function gameScreen:update(dt)
     
     -- update balls
     for i,ball in ipairs(balls) do
-        ball:update(dt)
+        ball:update(dt, p1, p2)
     end
 end
 
