@@ -10,6 +10,7 @@ function Player:init(cx, cy, sheet, anims, color, walkSnd)
     self.walkSnd = walkSnd
     self.walkSndPlaying = false
     self.facing = 1
+    self.inGoal = false
     
     -- technical
     self.spd = 4
@@ -121,7 +122,7 @@ end
 function Player:draw()
     -- telekinesis field
     lg.setColor(self.color[1], self.color[2], self.color[3], 0.5)
-    lg.circle('fill', self.pos.x + self.w / 2, self.pos.y + self.h / 2, telekinesisRadius)
+    lg.circle('fill', self.pos.x + self.w / 2, self.pos.y + self.h / 2, telekinesisRadius + lm.random(-2, 2))
     
     -- character sprite
     lg.setColor(self.color)

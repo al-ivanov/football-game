@@ -4,6 +4,7 @@ lw = love.window
 lk = love.keyboard
 la = love.audio
 le = love.event
+lm = love.math
 
 -- general libraries
 vec = require 'libs/vector'
@@ -32,20 +33,21 @@ screen:setDimensions(push:getDimensions())
 
 --audio
 require 'libs/slam'
-bgm = la.newSource('assets/audio/SwingJeDing.mp3', 'stream')
+bgm = la.newSource('assets/audio/SwingJeDing.ogg', 'stream')
 bgm:setLooping(true)
 bgm:setVolume(0.3)
 bgm:play()
 
 exp3 = la.newSource('assets/audio/exp3.wav', 'static')
-exp8 = la.newSource('assets/audio/exp8.wav', 'static')
-pow3 = la.newSource('assets/audio/pow3.wav', 'static')
+exp8 = la.newSource('assets/audio/exp8.ogg', 'static')
+pow3 = la.newSource('assets/audio/pow3.ogg', 'static')
+hit1 = la.newSource('assets/audio/hit1.wav', 'static')
 
-step3 = la.newSource('assets/audio/stairs3.wav', 'static')
+step3 = la.newSource('assets/audio/stairs3.ogg', 'static')
 step3:setVolume(0.5)
 step3:setLooping(true)
 
-step4 = la.newSource('assets/audio/stairs4.wav', 'static')
+step4 = la.newSource('assets/audio/stairs4.ogg', 'static')
 step4:setVolume(0.5)
 step4:setLooping(true)
 
@@ -55,6 +57,7 @@ Entity = require 'classes/Entity'
 Player = require 'classes/Player'
 Ball = require 'classes/Ball'
 Wall = require 'classes/Wall'
+Goal = require 'classes/Goal'
 
 -- states
 gamestate = require 'libs/gamestate'
@@ -65,7 +68,7 @@ gameScreen = require 'states.gameScreen'
 telekinesisRadius = 80
 kickStr = 2
 launchStr = 45
-debug = false
+debug = true
 
 function love.load()
     lw.setTitle('Telekinessball')
