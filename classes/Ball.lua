@@ -53,15 +53,15 @@ function Ball:update(dt, p1, p2)
             if otherObj.id == 'wall' or otherObj.id == 'player' then
                 -- bounce
                 if col.normal.x == 0 then
-                    self.velVec.y = self.velVec.y * - 1
+                    self.velVec.y = self.velVec.y * - 0.75
                 else 
-                    self.velVec.x = self.velVec.x * - 1
+                    self.velVec.x = self.velVec.x * - 0.75
                 end
                 if self.velVec:len() > 10 then
                     hit1:play()
                 end
             elseif otherObj.id == 'ball' then
-                -- bounce off ball
+                -- ball x ball collision
                 local sumVec = self.velVec + otherObj.velVec
                 self.velVec.x, self.velVec.y = sumVec.x * -0.5, sumVec.y * -0.5
                 otherObj.velVec.x, otherObj.velVec.y = sumVec.x * 0.8, sumVec.y * 0.8

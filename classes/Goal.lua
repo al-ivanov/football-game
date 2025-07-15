@@ -27,6 +27,7 @@ function Goal:update(dt, scores)
             scores[self.side] = scores[self.side] + 1
             otherObj.inGoal = true
             otherObj.velVec = otherObj.velVec:normalized() * -launchStr / 2
+            exp3:play()
         end
     end
 end

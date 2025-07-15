@@ -38,6 +38,10 @@ local p2 = Player(500, 325, spritesheet, plAnims, colors.orange, step4)
 p2.facing = -1
 local gameEnd = false
 
+for i,ball in ipairs(balls) do
+    ball.velVec.x, ball.velVec.y = 0, 0
+end
+
 function gameScreen:reset()
     screen:setShake(10)
     exp3:play()
@@ -128,6 +132,8 @@ end
 function gameScreen:keypressed(k)
     if k == 'r' then
         self.reset()
+    elseif k == 'e' then
+        gamestate.switch(startScreen)
     end
     if k == 'space' then
         p1:action(balls)

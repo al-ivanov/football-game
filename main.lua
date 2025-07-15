@@ -38,7 +38,7 @@ bgm:setLooping(true)
 bgm:setVolume(0.3)
 bgm:play()
 
-exp3 = la.newSource('assets/audio/exp3.wav', 'static')
+exp3 = la.newSource('assets/audio/exp3.ogg', 'static')
 exp8 = la.newSource('assets/audio/exp8.ogg', 'static')
 pow3 = la.newSource('assets/audio/pow3.ogg', 'static')
 hit1 = la.newSource('assets/audio/hit1.wav', 'static')
