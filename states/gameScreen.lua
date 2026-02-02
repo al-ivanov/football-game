@@ -15,6 +15,11 @@ local walls = {
     Wall(805, 225, 10, 450),
     Wall(400, -5, 800, 10),
     Wall(400, 455, 800, 10),
+
+    Wall(32 * 7.5, 32 * 4, 32, 64), --TL
+    Wall(32 * 7.5, 32 * 10, 32, 64), --BL
+    Wall(32 * 17.5, 32 * 4, 32, 64), --TR
+    Wall(32 * 17.5, 32 * 10, 32, 64), --BR
 }
 
 local goals = {
@@ -76,6 +81,7 @@ function gameScreen:reset()
 end
 
 function gameScreen:enter()
+    lg.setFont(fontBig)
     self.reset()
 end
 
@@ -154,6 +160,8 @@ function gameScreen:draw()
         end
         
         lg.draw(trophy, winX - 8, winY - 55)
+
+        lg.printf('GAME OVER! PRESS R TO RESTART', 0, gameH / 2 - 16, gameW, 'center')
     end
     
     end)

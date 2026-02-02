@@ -11,19 +11,7 @@ function Entity:getRect()
 end
 
 function Entity:getCenter()
-    return vec(self.pos.x + self.w / 2, self.pos.y + self.h / 2)
-end
-
-function Entity:move(dx, dy)
-
-end
-
-function Entity:draw()
-
-end
-
-function Entity:takeDmg(dmg)
-
+	return vec(self.pos.x + self.w / 2, self.pos.y + self.h / 2)
 end
 
 return Entity

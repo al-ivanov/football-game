@@ -23,17 +23,21 @@ function Goal:update(dt, scores)
         local col = cols[i]
         local otherObj = col.other
         
-        if otherObj.id == 'ball' and otherObj.inGoal == false then
+        if otherObj.id == 'ball' and otherObj.status == 0 then
             scores[self.side] = scores[self.side] + 1
-            otherObj.inGoal = true
-            otherObj.velVec = otherObj.velVec:normalized() * -launchStr / 2
+            --otherObj.velVec = otherObj.velVec:normalized() * -launchStr / 2 -- launches out, change this
+            otherObj:enterFromSide()
             exp3:play()
         end
     end
 end
 
 function Goal:draw()
-    lg.setColor(colors.red[1], colors.red[2], colors.red[3], 0.5)
+    local drawColor = colors.orange
+    if self.side == 2 then 
+        drawColor = colors.aqua
+    end
+    lg.setColor(drawColor[1], drawColor[2], drawColor[3], 0.8)
     lg.rectangle('fill', self.pos.x, self.pos.y, self.w, self.h)
 end
 

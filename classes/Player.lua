@@ -36,18 +36,18 @@ function Player:update(dt, dx, dy)
         dx, dy = dx / rss, dy  / rss
         
         self.curAnim = self.anims[2]
-        if not self.walkSndPlaying then
-            self.walkSnd:play()
+        if not self.walkSndPlaying then 
+            self.walkSnd:play() 
             self.walkSndPlaying = true
         end
     else
         self.curAnim = self.anims[1]
-        if self.walkSndPlaying then
+        if self.walkSndPlaying then 
             self.walkSnd:pause()
             self.walkSndPlaying = false
         end
     end
-
+    
     if dx < 0 then
         self.facing = -1
     elseif dx > 0 then
@@ -62,7 +62,7 @@ function Player:update(dt, dx, dy)
         local otherObj = cols[i].other
 
         -- kick active ball
-        if otherObj.id == 'ball' and otherObj.isHold == 0 then
+        if otherObj.id == 'ball' and otherObj.status == 0 then
             otherObj.velVec = (otherObj.pos - self.pos):normalized() * kickStr
         end
     end
@@ -86,10 +86,11 @@ function Player:launchAll()
     for i = #self.grabbedBalls, 1, -1 do
         local ball = self.grabbedBalls[i]
         ball.velVec = (ball:getCenter() - self:getCenter()):normalized() * launchStr
-        ball.isHold = 0
+        ball.status = 0
+        ball.auraColor = colors.white
         table.remove(self.grabbedBalls, i)
     end
-
+    
     exp8:play()
     screen:setShake(20)
 end
@@ -97,18 +98,16 @@ end
 function Player:grabBalls(balls)
     local ballGrabbed = false
     for i,ball in ipairs(balls) do
-        if ball.isHold == 0 and (ball:getCenter() - self:getCenter()):len() < telekinesisRadius then
+        if ball.status == 0 and (ball:getCenter() - self:getCenter()):len() < telekinesisRadius then
             ball.velVec.x, ball.velVec.y = 0, 0
-            ball.isHold = 1
+            ball.status = 1
             ball.auraColor = self.color
             table.insert(self.grabbedBalls, ball)
             ballGrabbed = true
         end
     end
-
-    if ballGrabbed then
-        pow3:play()
-    end
+    
+    if ballGrabbed then pow3:play() end
 end
 
 function Player:action(balls)
