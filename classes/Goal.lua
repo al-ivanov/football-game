@@ -3,6 +3,29 @@ local Goal = Class{ __includes = Entity }
 function Goal:init(cx, cy, w, h, side)
     self.id = 'goal'
     self.side = side
+    self.color = colors.aqua
+    if self.side == 2 then
+        self.color = colors.orange
+    end
+    
+    self.psystem = lg.newParticleSystem(assets.sprites.ring)
+    self.psystem:setParticleLifetime(0.5, 1.5)
+    self.psystem:setEmissionRate(1)
+    self.psystem:setSizeVariation(1)
+    
+    self.psystem:setColors(self.color[1], 
+                            self.color[2], 
+                            self.color[3], 1,
+                            self.color[1], 
+                            self.color[2], 
+                            self.color[3], 0) 
+    
+    self.psystem:setSpeed(225, 260)
+    if self.side == 2 then
+        self.psystem:setSpeed(-260, -225)
+    end
+    self.psystem:setSpread(math.rad(160))
+    self.psystem:pause()
 
     Entity.init(self, cx - w / 2, cy - h / 2, w, h)
     world:add(self, self:getRect())
@@ -27,17 +50,21 @@ function Goal:update(dt, scores)
             scores[self.side] = scores[self.side] + 1
             otherObj:enterFromSide()
             exp3:play()
+            self.psystem:start()
+            self.psystem:emit(30)
+            self.psystem:pause()
         end
     end
+
+    self.psystem:update(dt)
 end
 
 function Goal:draw()
-    local drawColor = colors.orange
-    if self.side == 2 then 
-        drawColor = colors.aqua
-    end
-    lg.setColor(drawColor[1], drawColor[2], drawColor[3], 0.8)
+    lg.setColor(self.color[1], self.color[2], self.color[3], 0.8)
     lg.rectangle('fill', self.pos.x, self.pos.y, self.w, self.h)
+
+    lg.setColor(colors.white)
+    lg.draw(self.psystem, self.pos.x, self.pos.y + self.h / 2)
 end
 
 return Goal
