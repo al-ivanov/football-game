@@ -75,15 +75,6 @@ function Ball:draw()
     lg.setColor(colors.white)
     lg.draw(self.sprite, self.pos.x + self.w / 2, self.pos.y + self.h / 2, 
                 self.velVec:len() % (2 * math.pi), 1, 1, self.w / 2, self.h / 2)
-
-    if debug then
-        if self.status == 0 then
-            lg.setColor(colors.green[1], colors.green[2], colors.green[3], 0.8)
-        elseif self.status == 1 then
-            lg.setColor(colors.blue[1], colors.blue[2], colors.blue[3], 0.8)
-        end
-        lg.rectangle('fill', self.pos.x, self.pos.y, self.w, self.h)
-    end
 end
 
 function Ball:enterFromSide()

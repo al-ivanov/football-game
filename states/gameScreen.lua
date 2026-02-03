@@ -32,11 +32,11 @@ local maxScore = 5
 local scores = {0, 0}
 
 local balls = {
-    Ball(400 - 24, 225 - 24, assets.sprites.baseball),
-    Ball(380 - 24, 125 - 24, assets.sprites.baseball),
-    Ball(460 - 24, 125 - 24, assets.sprites.baseball),
-    Ball(340 - 24, 325 - 24, assets.sprites.baseball),
-    Ball(460 - 24, 325 - 24, assets.sprites.baseball),
+    Ball(0, 0, assets.sprites.baseball),
+    Ball(0, 0, assets.sprites.baseball),
+    Ball(0, 0, assets.sprites.baseball),
+    Ball(0, 0, assets.sprites.baseball),
+    Ball(0, 0, assets.sprites.baseball),
 }
 
 local ballLocs = {
@@ -106,13 +106,17 @@ function gameScreen:update(dt)
     
     p1:update(dt, dx, dy)
 
-    --keypress
+    --keypresses
     if p1input:pressed('action') then
         if gameEnd then
             self:reset()
         else
             p1:action(balls)
         end
+    end
+
+    if p1input:pressed('reset') then
+        self:reset()
     end
     
     -- p2 input
@@ -128,13 +132,17 @@ function gameScreen:update(dt)
 
     p2:update(dt, dx, dy)
 
-    --keypress
+    --keypresses
     if p2input:pressed('action') then
         if gameEnd then
             self:reset()
         else
             p2:action(balls)
         end
+    end
+
+    if p2input:pressed('reset') then
+        self:reset()
     end
     
     -- update balls
@@ -194,12 +202,6 @@ function gameScreen:draw()
     end)
     
     push:finish()
-end
-
-function gameScreen:keypressed(k)
-    if k == 'r' then
-        self:reset()
-    end
 end
 
 return gameScreen
