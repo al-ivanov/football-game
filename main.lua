@@ -60,33 +60,33 @@ step4:setLooping(true)
 
 -- joystick input library
 baton = require 'libs/baton'
-p1config = {
+p1input = baton.new{
     controls = {
-        left = {'key:a'},
-        right = {'key:d'},
-        up = {'key:w'},
-        down = {'key:s'},
-        action = {'key:space'},
+        left = {'key:a', 'axis:leftx-', 'button:dpleft'},
+        right = {'key:d', 'axis:leftx+', 'button:dpright'},
+        up = {'key:w', 'axis:lefty-', 'button:dpup'},
+        down = {'key:s', 'axis:lefty+', 'button:dpdown'},
+        action = {'key:space', 'button:a'},
     },
     pairs = {
         move = {'left', 'right', 'up', 'down'},
     },
+    joystick = lj.getJoysticks()[1]
 }
-p1input = baton.new(p1config)
 
-p2config = {
+p2input = baton.new{
     controls = {
-        left = {'key:left'},
-        right = {'key:right'},
-        up = {'key:up'},
-        down = {'key:down'},
-        action = {'key:return'},
+        left = {'key:left', 'axis:leftx-', 'button:dpleft'},
+        right = {'key:right', 'axis:leftx+', 'button:dpright'},
+        up = {'key:up', 'axis:lefty-', 'button:dpup'},
+        down = {'key:down', 'axis:lefty+', 'button:dpdown'},
+        action = {'key:return', 'button:a'},
     },
     pairs = {
         move = {'left', 'right', 'up', 'down'},
     },
+    joystick = lj.getJoysticks()[2]
 }
-p2input = baton.new(p2config)
 
 
 
