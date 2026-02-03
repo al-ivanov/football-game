@@ -125,11 +125,16 @@ function Player:draw()
     
     -- character sprite
     lg.setColor(self.color)
-    --lg.draw(self.sprite, self.pos.x, self.pos.y)
     self.curAnim:draw(self.sheet, self.pos.x + self.w / 2, self.pos.y, 0, self.facing, 1, self.w / 2)
 
     
     lg.setColor(colors.white)
+end
+
+function Player:teleport(x, y)
+    world:update(self, x, y)
+    self.pos.x, self.pos.y = x, y
+    
 end
 
 return Player

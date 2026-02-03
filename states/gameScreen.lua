@@ -11,10 +11,10 @@ local plAnims = {
 
 -- game vars
 local walls = {
-    Wall(-5, 225, 10, 450),
-    Wall(805, 225, 10, 450),
-    Wall(400, -5, 800, 10),
-    Wall(400, 455, 800, 10),
+    Wall(-20, 225, 40, 450),
+    Wall(820, 225, 40, 450),
+    Wall(400, -20, 800, 40),
+    Wall(400, 470, 800, 40),
 
     Wall(32 * 7.5, 32 * 4, 32, 64), --TL
     Wall(32 * 7.5, 32 * 10, 32, 64), --BL
@@ -71,12 +71,10 @@ function gameScreen:reset()
         ball.pos.x, ball.pos.y =  newLoc[1], newLoc[2]
     end
     
-    world:update(p1, 224, 6.5 * 32)
-    p1.pos.x, p1.pos.y = 224, 6.5 * 32
+    p1:teleport(224, 208)
     p1.facing = 1
     
-    world:update(p2, 17 * 32, 6.5 * 32)
-    p2.pos.x, p2.pos.y = 17 * 32, 6.5 * 32
+    p2:teleport(544, 208)
     p2.facing = -1
 end
 
@@ -118,6 +116,10 @@ function gameScreen:update(dt)
     if p1input:pressed('reset') then
         self:reset()
     end
+
+    if p1.pos.x < -p1.w or p1.pos.x > gameW or p1.pos.y < -p1.h or p1.pos.y > gameH then
+        p1:teleport(224, 208)
+    end
     
     -- p2 input
     p2input:update()
@@ -143,6 +145,10 @@ function gameScreen:update(dt)
 
     if p2input:pressed('reset') then
         self:reset()
+    end
+
+    if p2.pos.x < -p2.w or p2.pos.x > gameW or p2.pos.y < -p2.h or p2.pos.y > gameH then
+        p2:teleport(544, 208)
     end
     
     -- update balls
