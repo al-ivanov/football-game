@@ -5,6 +5,7 @@ lk = love.keyboard
 la = love.audio
 le = love.event
 lm = love.math
+lj = love.joystick
 
 -- general libraries
 vec = require 'libs/vector'
@@ -56,6 +57,38 @@ step3:setLooping(true)
 step4 = la.newSource('assets/audio/stairs4.ogg', 'static')
 step4:setVolume(0.5)
 step4:setLooping(true)
+
+-- joystick input library
+baton = require 'libs/baton'
+p1config = {
+    controls = {
+        left = {'key:a'},
+        right = {'key:d'},
+        up = {'key:w'},
+        down = {'key:s'},
+        action = {'key:space'},
+    },
+    pairs = {
+        move = {'left', 'right', 'up', 'down'},
+    },
+}
+p1input = baton.new(p1config)
+
+p2config = {
+    controls = {
+        left = {'key:left'},
+        right = {'key:right'},
+        up = {'key:up'},
+        down = {'key:down'},
+        action = {'key:return'},
+    },
+    pairs = {
+        move = {'left', 'right', 'up', 'down'},
+    },
+}
+p2input = baton.new(p2config)
+
+
 
 -- classes
 Class = require 'libs/class'

@@ -96,27 +96,46 @@ function gameScreen:update(dt)
     screen:update(dt)
     
     -- p1 input
-    -- keyboard
-    if (lk.isDown('w')) then dy = dy - 1 end
-    if (lk.isDown('s')) then dy = dy + 1 end
-    if (lk.isDown('a')) then dx = dx - 1 end
-    if (lk.isDown('d')) then dx = dx + 1 end
-    
-    -- joystick
+    p1input:update()
+    --movement
+    local ix, iy = p1input:get('move')
+    if (iy < 0) then dy = dy - 1 end
+    if (iy > 0) then dy = dy + 1 end
+    if (ix < 0) then dx = dx - 1 end
+    if (ix > 0) then dx = dx + 1 end
     
     p1:update(dt, dx, dy)
+
+    --keypress
+    if p1input:pressed('action') then
+        if gameEnd then
+            self:reset()
+        else
+            p1:action(balls)
+        end
+    end
     
     -- p2 input
-    -- keyboard
+    p2input:update()
+    --movement
     dx, dy = 0, 0
-    if (lk.isDown('up')) then dy = dy - 1 end
-    if (lk.isDown('down')) then dy = dy + 1 end
-    if (lk.isDown('left')) then dx = dx - 1 end
-    if (lk.isDown('right')) then dx = dx + 1 end
+    ix, iy = 0, 0
+    ix, iy = p2input:get('move')
+    if (iy < 0) then dy = dy - 1 end
+    if (iy > 0) then dy = dy + 1 end
+    if (ix < 0) then dx = dx - 1 end
+    if (ix > 0) then dx = dx + 1 end
 
-    -- joystick
-    
     p2:update(dt, dx, dy)
+
+    --keypress
+    if p2input:pressed('action') then
+        if gameEnd then
+            self:reset()
+        else
+            p2:action(balls)
+        end
+    end
     
     -- update balls
     for i,ball in ipairs(balls) do
@@ -180,21 +199,6 @@ end
 function gameScreen:keypressed(k)
     if k == 'r' then
         self:reset()
-    end
-    if k == 'space' then
-        if gameEnd then
-            self:reset()
-        else
-            p1:action(balls)
-        end
-    end
-    
-    if k == 'return' then
-        if gameEnd then
-            self:reset()
-        else
-            p2:action(balls)
-        end
     end
 end
 
