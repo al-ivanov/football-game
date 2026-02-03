@@ -19,15 +19,16 @@ function startScreen:draw()
 
     effect(function ()
         lg.setColor(colors.white)
-        lg.rectangle('fill', 0, 0, gameW, gameH)
+        lg.draw(assets.sprites.field, 0, 0)
         canim:draw(csheet, 304, 200)
         
         lg.setColor(colors.black)
         lg.setFont(fontBig)
         lg.printf('Telekinessball', 0, 100, gameW, 'center')
-        -- lg.print('Press any button', 0, 200)eqwe
+        -- lg.print('Press any button', 0, 200)
 
-        
+        lg.setColor(colors.white)
+
     end)
     
     push:finish()

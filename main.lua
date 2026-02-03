@@ -15,7 +15,7 @@ colors = require 'libs/colors'
 bump = require 'libs/bump'
 world = bump.newWorld()
 moonshine = require '/libs/moonshine'
-effect = moonshine(moonshine.effects.crt).chain(moonshine.effects.scanlines)
+effect = moonshine(moonshine.effects.scanlines).chain(moonshine.effects.crt)
 effect.scanlines.opacity = 0.2
 
 -- resolution
@@ -38,11 +38,13 @@ csheet = assets.sprites.controllersheet
 cg = anim8.newGrid(192, 108, csheet:getWidth(), csheet:getHeight())
 canim = anim8.newAnimation(cg('1-2', 1), 0.2)
 
+local maxVolome = 0.3
 --audio
 require 'libs/slam'
 bgm = la.newSource('assets/audio/SwingJeDing.ogg', 'stream')
+-- music: https://roccow.bandcamp.com/track/swingjeding
 bgm:setLooping(true)
-bgm:setVolume(0.3)
+bgm:setVolume(maxVolome)
 bgm:play()
 
 exp3 = la.newSource('assets/audio/exp3.ogg', 'static')
@@ -107,9 +109,11 @@ gameScreen = require 'states.gameScreen'
 
 -- game vars
 telekinesisRadius = 80
+smlTelekinesisRadius = 50
 kickStr = 2
 launchStr = 45
 ejectStr = 30
+volumeState = 1
 debug = false
 
 function love.load()
@@ -127,6 +131,11 @@ function love.keypressed(k)
     elseif k == 'q' or k == 'escape' then
         le.quit()
     elseif k == 'm' then
-    
+        if volumeState == maxVolome then
+            volumeState = 0
+        else
+            volumeState = maxVolome
+        end
+        bgm:setVolume(volumeState)
     end
 end

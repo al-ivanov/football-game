@@ -23,8 +23,8 @@ local walls = {
 }
 
 local goals = {
-    Goal(10, 225, 10, 128, 2),
-    Goal(790, 225, 10, 128, 1)
+    Goal(7, 225, 14, 128, 2),
+    Goal(793, 225, 14, 128, 1)
 }
 
 local maxScore = 5
@@ -84,7 +84,7 @@ function gameScreen:enter()
 end
 
 function gameScreen:update(dt)
-    if scores[1] >= 10 or scores[2] >= 10 then
+    if scores[1] >= maxScore or scores[2] >= maxScore then
         gameEnd = true
     end
 
@@ -186,13 +186,13 @@ function gameScreen:draw()
     
     -- draw scores
     lg.setColor(colors.aqua)
-    lg.printf(scores[1] .. '/10', 20, 20, gameW, 'left')
+    lg.printf(scores[1] .. '/'.. maxScore, 20, 20, gameW, 'left')
     lg.setColor(colors.orange)
-    lg.printf(scores[2] .. '/10', -20, 20, gameW, 'right')
+    lg.printf(scores[2] .. '/' .. maxScore, -20, 20, gameW, 'right')
     
     if gameEnd then 
         local winX, winY = p1.pos.x, p1.pos.y
-        if scores[2] >= 10 then
+        if scores[2] >= maxScore then
             winX, winY = p2.pos.x, p2.pos.y
         end
         

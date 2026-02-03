@@ -11,6 +11,8 @@ function Player:init(cx, cy, sheet, anims, color, walkSnd)
     self.walkSndPlaying = false
     self.facing = 1
     self.inGoal = false
+    self.radius = telekinesisRadius
+    self.opacity = 0.5
     
     -- technical
     self.spd = 4
@@ -88,6 +90,7 @@ function Player:launchAll()
         ball.velVec = (ball:getCenter() - self:getCenter()):normalized() * launchStr
         ball.status = 0
         ball.auraColor = colors.white
+        ball.opacity = 0.6
         table.remove(self.grabbedBalls, i)
     end
     
@@ -102,6 +105,7 @@ function Player:grabBalls(balls)
             ball.velVec.x, ball.velVec.y = 0, 0
             ball.status = 1
             ball.auraColor = self.color
+            ball.opacity = 0.9
             table.insert(self.grabbedBalls, ball)
             ballGrabbed = true
         end
@@ -119,9 +123,15 @@ function Player:action(balls)
 end
 
 function Player:draw()
+    self.radius = telekinesisRadius
+    self.opacity = 0.5
+    if #self.grabbedBalls > 0 then 
+        self.radius = smlTelekinesisRadius 
+        self.opacity = 0.8
+    end
     -- telekinesis field
-    lg.setColor(self.color[1], self.color[2], self.color[3], 0.5)
-    lg.circle('fill', self.pos.x + self.w / 2, self.pos.y + self.h / 2, telekinesisRadius + lm.random(-2, 2))
+    lg.setColor(self.color[1], self.color[2], self.color[3], self.opacity)
+    lg.circle('fill', self.pos.x + self.w / 2, self.pos.y + self.h / 2, self.radius + lm.random(-2, 2))
     
     -- character sprite
     lg.setColor(self.color)
