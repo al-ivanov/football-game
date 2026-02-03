@@ -12,6 +12,7 @@ function Player:init(cx, cy, sheet, anims, color, walkSnd)
     self.facing = 1
     self.inGoal = false
     self.radius = telekinesisRadius
+    self.ringRadius = telekinesisRadius
     self.opacity = 0.5
     
     -- technical
@@ -96,6 +97,7 @@ function Player:launchAll()
     
     exp8:play()
     screen:setShake(20)
+    self.ringRadius = telekinesisRadius
 end
 
 function Player:grabBalls(balls)
@@ -105,13 +107,20 @@ function Player:grabBalls(balls)
             ball.velVec.x, ball.velVec.y = 0, 0
             ball.status = 1
             ball.auraColor = self.color
-            ball.opacity = 0.9
+            ball.opacity = 0.8
             table.insert(self.grabbedBalls, ball)
             ballGrabbed = true
         end
     end
     
-    if ballGrabbed then pow3:play() end
+    pow3:play()
+    
+    if ballGrabbed then 
+        self.ringRadius = smlTelekinesisRadius
+    else
+        Timer.tween(0.3, self, {ringRadius = 10}, 'out-quad', 
+                    function() self.ringRadius = telekinesisRadius end)
+    end
 end
 
 function Player:action(balls)
@@ -126,17 +135,21 @@ function Player:draw()
     self.radius = telekinesisRadius
     self.opacity = 0.5
     if #self.grabbedBalls > 0 then 
-        self.radius = smlTelekinesisRadius 
+        self.radius = smlTelekinesisRadius
         self.opacity = 0.8
     end
+
     -- telekinesis field
     lg.setColor(self.color[1], self.color[2], self.color[3], self.opacity)
     lg.circle('fill', self.pos.x + self.w / 2, self.pos.y + self.h / 2, self.radius + lm.random(-2, 2))
     
+    -- telekinesis ringRadius
+    lg.setColor(self.color[1] - 0.3, self.color[2] - 0.3, self.color[3] - 0.3, 1)
+    lg.circle('line', self.pos.x + self.w / 2, self.pos.y + self.h / 2, self.ringRadius + lm.random(-2, 2))
+    
     -- character sprite
     lg.setColor(self.color)
     self.curAnim:draw(self.sheet, self.pos.x + self.w / 2, self.pos.y, 0, self.facing, 1, self.w / 2)
-
     
     lg.setColor(colors.white)
 end
@@ -144,7 +157,6 @@ end
 function Player:teleport(x, y)
     world:update(self, x, y)
     self.pos.x, self.pos.y = x, y
-    
 end
 
 return Player

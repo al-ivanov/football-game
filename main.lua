@@ -10,6 +10,7 @@ lj = love.joystick
 -- general libraries
 vec = require 'libs/vector'
 colors = require 'libs/colors'
+Timer = require "libs/timer"
 
 -- collision
 bump = require 'libs/bump'
@@ -92,7 +93,14 @@ p2input = baton.new{
     joystick = lj.getJoysticks()[2]
 }
 
-
+-- game vars
+telekinesisRadius = 80
+smlTelekinesisRadius = 50
+kickStr = 2
+launchStr = 45
+ejectStr = 30
+volumeState = 1
+debug = false
 
 -- classes
 Class = require 'libs/class'
@@ -107,19 +115,13 @@ gamestate = require 'libs/gamestate'
 startScreen = require 'states.startScreen'
 gameScreen = require 'states.gameScreen'
 
--- game vars
-telekinesisRadius = 80
-smlTelekinesisRadius = 50
-kickStr = 2
-launchStr = 45
-ejectStr = 30
-volumeState = 1
-debug = false
 
 function love.load()
     lw.setTitle('Telekinessball')
     
     lg.setFont(fontBig)
+
+    love.graphics.setLineWidth( 3 )
     
     gamestate.registerEvents()
     gamestate.switch(startScreen)

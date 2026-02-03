@@ -27,10 +27,6 @@ local goals = {
     Goal(793, 225, 14, 128, 2)
 }
 
-local maxScore = 5
-
-local scores = {0, 0}
-
 local balls = {
     Ball(0, 0, assets.sprites.baseball),
     Ball(0, 0, assets.sprites.baseball),
@@ -50,7 +46,10 @@ local ballLocs = {
 local p1 = Player(0, 0, spritesheet, plAnims, colors.aqua, step3)
 local p2 = Player(0, 0, spritesheet, plAnims, colors.orange, step4)
 
+local maxScore = 5
+local scores = {0, 0}
 local gameEnd = false
+local maxIdleTime = 7
 
 for i,ball in ipairs(balls) do
     ball.velVec.x, ball.velVec.y = 0, 0
@@ -84,6 +83,7 @@ function gameScreen:enter()
 end
 
 function gameScreen:update(dt)
+    Timer.update(dt)
     if scores[1] >= maxScore or scores[2] >= maxScore then
         gameEnd = true
     end
