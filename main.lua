@@ -6,6 +6,7 @@ la = love.audio
 le = love.event
 lm = love.math
 lj = love.joystick
+lt = love.timer
 
 -- general libraries
 vec = require 'libs/vector'
@@ -38,6 +39,7 @@ fontSmall = assets.fonts.Graph35pix(16)
 csheet = assets.sprites.controllersheet
 cg = anim8.newGrid(192, 108, csheet:getWidth(), csheet:getHeight())
 canim = anim8.newAnimation(cg('1-2', 1), 0.2)
+canim2 = anim8.newAnimation(cg('1-2', 1), 0.2)
 
 local maxVolome = 0.3
 --audio
