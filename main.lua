@@ -35,7 +35,8 @@ screen = require 'libs/shack'
 screen:setDimensions(push:getDimensions())
 fontBig = assets.fonts.Graph35pix(64)
 fontMed = assets.fonts.Graph35pix(32)
-fontSmall = assets.fonts.Graph35pix(16)
+fontSmall = assets.fonts.Graph35pix(24)
+fontTitle = assets.fonts.FFFFORWA(64)
 csheet = assets.sprites.controllersheet
 cg = anim8.newGrid(192, 108, csheet:getWidth(), csheet:getHeight())
 canim = anim8.newAnimation(cg('1-2', 1), 0.2)
@@ -44,7 +45,7 @@ canim2 = anim8.newAnimation(cg('1-2', 1), 0.2)
 local maxVolome = 0.3
 --audio
 require 'libs/slam'
-bgm = la.newSource('assets/audio/SwingJeDing.ogg', 'stream')
+bgm = la.newSource('assets/audio/roccow.ogg', 'stream')
 -- music: https://roccow.bandcamp.com/track/swingjeding
 bgm:setLooping(true)
 bgm:setVolume(maxVolome)
@@ -120,6 +121,8 @@ gameScreen = require 'states.gameScreen'
 
 function love.load()
     lw.setTitle('Telekinessball')
+
+    -- push:switchFullscreen()
     
     lg.setFont(fontBig)
 

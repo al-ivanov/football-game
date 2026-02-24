@@ -23,8 +23,8 @@ local walls = {
 }
 
 local goals = {
-    Goal(7, 225, 14, 128, 1),
-    Goal(793, 225, 14, 128, 2)
+    Goal(7, 225, 14, 128, 2, colors.aqua),
+    Goal(793, 225, 14, 128, 1, colors.orange)
 }
 
 local balls = {
@@ -32,16 +32,14 @@ local balls = {
     Ball(0, 0, assets.sprites.baseball),
     Ball(0, 0, assets.sprites.baseball),
     Ball(0, 0, assets.sprites.baseball),
-    Ball(0, 0, assets.sprites.baseball),
 }
 
 local ballLocs = {
-    {400 - 24, 225 - 24},
-    {380 - 24, 125 - 24},
-    {460 - 24, 125 - 24},
-    {340 - 24, 325 - 24},
-    {460 - 24, 325 - 24},
-}
+                    {340-24, 160-24},
+                    {460-24, 160-24},
+                    {340-24, 290-24},
+                    {460-24, 290-24},
+                    }
 
 local p1 = Player(0, 0, spritesheet, plAnims, colors.aqua, step3)
 local p2 = Player(0, 0, spritesheet, plAnims, colors.orange, step4)
@@ -51,7 +49,7 @@ local scores = {0, 0}
 local gameEnd = false
 
 --timeout vars
-local maxIdleTime = 15
+local maxIdleTime = 20
 local timeIdleStart = 0
 local timeIdle = 0
 local countingIdle = false
@@ -102,8 +100,7 @@ function gameScreen:update(dt)
     end
 
     if gameEnd then 
-        canim:update(dt) 
-        canim2:update(dt)
+        canim:update(dt)
     end
     
     local dx, dy = 0, 0
@@ -240,7 +237,7 @@ function gameScreen:draw()
 
         -- button animation
         canim:draw(csheet, 400 - 96 - 290, 320)
-        canim2:draw(csheet, 400 - 96 + 290, 320)
+        canim:draw(csheet, 400 - 96 + 290, 320)
 
         canim:draw(csheet, 304, 200)
 

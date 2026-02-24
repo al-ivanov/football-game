@@ -1,12 +1,9 @@
 local Goal = Class{ __includes = Entity }
 
-function Goal:init(cx, cy, w, h, side)
+function Goal:init(cx, cy, w, h, side, color)
     self.id = 'goal'
     self.side = side
-    self.color = colors.aqua
-    if self.side == 2 then
-        self.color = colors.orange
-    end
+    self.color = color
     
     self.psystem = lg.newParticleSystem(assets.sprites.ring)
     self.psystem:setParticleLifetime(0.5, 1.5)
@@ -20,9 +17,9 @@ function Goal:init(cx, cy, w, h, side)
                             self.color[2], 
                             self.color[3], 0) 
     
-    self.psystem:setSpeed(225, 260)
+    self.psystem:setSpeed(-260, 225)
     if self.side == 2 then
-        self.psystem:setSpeed(-260, -225)
+        self.psystem:setSpeed(225, 260)
     end
     self.psystem:setSpread(math.rad(160))
     self.psystem:pause()
