@@ -37,7 +37,7 @@ screen:setDimensions(push:getDimensions())
 fontBig = assets.fonts.Graph35pix(64)
 fontMed = assets.fonts.Graph35pix(32)
 fontSmall = assets.fonts.Graph35pix(24)
-fontTitle = lg.newFont('assets/fonts/FFFFORWA.TTF', 64)
+fontTitle = lg.newFont('assets/fonts/FFFFORWA.ttf', 64)
 csheet = assets.sprites.controllersheet
 cg = anim8.newGrid(192, 108, csheet:getWidth(), csheet:getHeight())
 canim = anim8.newAnimation(cg('1-2', 1), 0.2)
@@ -105,7 +105,6 @@ telekinesisRadius = 80
 smlTelekinesisRadius = 50
 kickStr = 2
 launchStr = 45
-ejectStr = 30
 volumeState = 1
 debug = false
 

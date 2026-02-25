@@ -98,7 +98,7 @@ function Ball:enterFromSide()
     
     world:update(self, 376, newY)
     self.pos.x, self.pos.y = 376, newY
-    self.velVec = vec.fromPolar(math.rad(newAngle)) * ejectStr
+    self.velVec = vec.fromPolar(math.rad(newAngle)) * 3
 end
 
 return Ball

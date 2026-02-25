@@ -40,12 +40,12 @@ local ballLocs = {
                     }
 
 local goalboxes = {
-                Goalbox(16, 5 * 32, 48, 128),
-                Goalbox(gameW - 64, 5 * 32, 48, 128)
+                Goalbox(16, 3 * 32, 4 * 32 - 16, 8 * 32, 1),
+                Goalbox(gameW - 4 * 32, 3 * 32, 4 * 32 - 16, 8 * 32, 2)
 }
 
-local p1 = Player(0, 0, spritesheet, plAnims, colors.aqua, 'step1')
-local p2 = Player(0, 0, spritesheet, plAnims, colors.orange, 'step2')
+local p1 = Player(0, 0, spritesheet, plAnims, 1, colors.aqua, 'step1')
+local p2 = Player(0, 0, spritesheet, plAnims, 2, colors.orange, 'step2')
 
 local maxScore = 5
 local scores = {0, 0}
@@ -56,6 +56,7 @@ local maxIdleTime = 20
 local timeIdleStart = 0
 local timeIdle = 0
 local countingIdle = false
+local winner = 1
 
 
 for i,ball in ipairs(balls) do
@@ -100,8 +101,10 @@ function gameScreen:update(dt)
     TEsound.cleanup()
 
     local anyInputPressed = false
-    if scores[1] >= maxScore or scores[2] >= maxScore then
+    if not gameEnd and (scores[1] >= maxScore or scores[2] >= maxScore) then
         gameEnd = true
+        if scores[1] >= maxScore then winner = 1 
+        else winner = 2 end
     end
 
     if gameEnd then 
@@ -126,12 +129,12 @@ function gameScreen:update(dt)
     p1:update(dt, dx, dy)
 
     --keypresses
-    if not gameEnd and p1input:pressed('action') then
+    if p1input:pressed('action') then
         anyInputPressed = true
         p1:action(balls)
     end
 
-    if not gameEnd and p1input:pressed('reset') and gameEnd then
+    if p1input:pressed('reset') and gameEnd then
         anyInputPressed = true
         self:reset()
     end
@@ -232,7 +235,7 @@ function gameScreen:draw()
     else
         -- trophy
         local winX, winY = p1.pos.x, p1.pos.y
-        if scores[2] >= maxScore then
+        if winner == 2 then
             winX, winY = p2.pos.x, p2.pos.y
         end
         
