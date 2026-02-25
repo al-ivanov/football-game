@@ -194,6 +194,10 @@ function gameScreen:update(dt)
     for i,goal in ipairs(goals) do
         goal:update(dt, scores)
     end
+
+    for i,goalbox in ipairs(goalboxes) do
+        goalbox:update(dt)
+    end
 end
 
 function gameScreen:draw()
