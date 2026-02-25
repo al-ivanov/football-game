@@ -116,6 +116,7 @@ Player = require 'classes/Player'
 Ball = require 'classes/Ball'
 Wall = require 'classes/Wall'
 Goal = require 'classes/Goal'
+Goalbox = require 'classes/Goalbox'
 
 -- states
 gamestate = require 'libs/gamestate'

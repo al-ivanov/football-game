@@ -76,7 +76,13 @@ function Player:update(dt, dx, dy)
         if (self:getCenter() - ball:getCenter()):len() < telekinesisRadius then
             ball.velVec = vec(dx * self.spd, dy * self.spd)
         else
-            ball.velVec = (self:getCenter() - ball:getCenter()):normalized() * 12
+            ball.status = 0
+            ball.auraColor = colors.white
+            ball.opacity = 0.6
+            table.remove(self.grabbedBalls, i)
+            if #self.grabbedBalls == 0 then
+                self.ringRadius = telekinesisRadius
+            end
         end
     end
     
@@ -114,7 +120,8 @@ function Player:grabBalls(balls)
         end
     end
     
-    TEsound.play(pow3)
+    TEsound.play(pow3, 'pow3')
+    TEsound.volume('pow3', 0.5)
     
     if ballGrabbed then 
         self.ringRadius = smlTelekinesisRadius

@@ -28,9 +28,9 @@ local goals = {
 }
 
 local balls = {
-    Ball(0, 0, assets.sprites.baseball),
-    Ball(0, 0, assets.sprites.baseball),
-    Ball(0, 0, assets.sprites.baseball),
+    Ball(400-24, 225-24, assets.sprites.ball),
+    Ball(400-24, 125-24, assets.sprites.ball),
+    Ball(400-24, 325-24, assets.sprites.ball),
 }
 
 local ballLocs = {
@@ -38,6 +38,11 @@ local ballLocs = {
                     {400-24, 125-24},
                     {400-24, 325-24},
                     }
+
+local goalboxes = {
+                Goalbox(7, 5 * 32, 57, 128),
+                Goalbox(gameW - 64, 5 * 32, 57, 128)
+}
 
 local p1 = Player(0, 0, spritesheet, plAnims, colors.aqua, 'step1')
 local p2 = Player(0, 0, spritesheet, plAnims, colors.orange, 'step2')
@@ -180,6 +185,9 @@ function gameScreen:update(dt)
     -- update balls
     for i,ball in ipairs(balls) do
         ball:update(dt, p1, p2)
+        if ball.pos.x < -ball.w or ball.pos.x > gameW or ball.pos.y < -ball.h or ball.pos.y > gameH then
+            ball:teleport(ball.startPos.x + ball.w / 2, ball.startPos.y + ball.h / 2)
+        end
     end
 
     -- update goals

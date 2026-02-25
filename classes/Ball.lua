@@ -9,18 +9,25 @@ function Ball:init(cx, cy, sprite)
     self.auraRad = 35
     self.opacity = 0.6
 
+    self.startPos = {x = cx - sprite:getWidth() / 2, y = cy - sprite:getHeight() / 2}
+
     Entity.init(self, cx - sprite:getWidth() / 2, cy - sprite:getHeight() / 2, sprite:getWidth(), sprite:getHeight())
 
     -- collision
     world:add(self, self:getRect())
 
     self.filter = function(item, other)
-        if other.id == 'goal' then
+        if other.id == 'goal' or other.id == 'goalbox'  then
             return 'cross'
         end
         
         return 'slide'
     end
+end
+
+function Ball:teleport(x, y)
+    world:update(self, x, y)
+    self.pos.x, self.pos.y = x, y
 end
 
 function Ball:update(dt, p1, p2)
