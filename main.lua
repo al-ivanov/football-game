@@ -7,6 +7,7 @@ le = love.event
 lm = love.math
 lj = love.joystick
 lt = love.timer
+ls = love.sound
 
 -- general libraries
 vec = require 'libs/vector'
@@ -44,25 +45,27 @@ canim2 = anim8.newAnimation(cg('1-2', 1), 0.2)
 
 local maxVolome = 0.3
 --audio
-require 'libs/slam'
-bgm = la.newSource('assets/audio/roccow.ogg', 'stream')
+require 'libs/tesound'
+
 -- music: https://roccow.bandcamp.com/track/swingjeding
-bgm:setLooping(true)
-bgm:setVolume(maxVolome)
-bgm:play()
+bgmSnd = ls.newSoundData('assets/audio/roccow.ogg')
+TEsound.playLooping(bgmSnd, 'bgm')
+TEsound.volume('bgm', maxVolome)
 
-exp3 = la.newSource('assets/audio/exp3.ogg', 'static')
-exp8 = la.newSource('assets/audio/exp8.ogg', 'static')
-pow3 = la.newSource('assets/audio/pow3.ogg', 'static')
-hit1 = la.newSource('assets/audio/hit1.wav', 'static')
+--sfx
+exp3 = ls.newSoundData('assets/audio/exp3.ogg')
+exp8 = ls.newSoundData('assets/audio/exp8.ogg')
+pow3 = ls.newSoundData('assets/audio/pow3.ogg')
+hit1 = ls.newSoundData('assets/audio/hit1.ogg')
 
-step3 = la.newSource('assets/audio/stairs3.ogg', 'static')
-step3:setVolume(0.5)
-step3:setLooping(true)
+step1 = ls.newSoundData('assets/audio/stairs3.ogg')
+step2 = ls.newSoundData('assets/audio/stairs4.ogg')
 
-step4 = la.newSource('assets/audio/stairs4.ogg', 'static')
-step4:setVolume(0.5)
-step4:setLooping(true)
+TEsound.playLooping(step1, 'step1')
+TEsound.playLooping(step2, 'step2')
+
+TEsound.volume('step1', 0)
+TEsound.volume('step2', 0)
 
 -- joystick input library
 baton = require 'libs/baton'

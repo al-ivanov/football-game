@@ -56,7 +56,7 @@ function Ball:update(dt, p1, p2)
                 else
                     self.velVec.x = self.velVec.x * -0.9
                 end
-                if self.velVec:len() > 8 then hit1:play() end
+                if self.velVec:len() > 8 then TEsound.play(hit1) end
             elseif otherObj.id == 'ball' then
                 -- ball x ball collision
                 local sumVec = self.velVec + otherObj.velVec

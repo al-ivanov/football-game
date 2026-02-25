@@ -46,7 +46,7 @@ function Goal:update(dt, scores)
         if otherObj.id == 'ball' and otherObj.status == 0 then
             scores[self.side] = scores[self.side] + 1
             otherObj:enterFromSide()
-            exp3:play()
+            TEsound.play(exp3)
             self.psystem:start()
             self.psystem:emit(30)
             self.psystem:pause()

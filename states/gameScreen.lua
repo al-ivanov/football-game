@@ -31,18 +31,16 @@ local balls = {
     Ball(0, 0, assets.sprites.baseball),
     Ball(0, 0, assets.sprites.baseball),
     Ball(0, 0, assets.sprites.baseball),
-    Ball(0, 0, assets.sprites.baseball),
 }
 
 local ballLocs = {
-                    {340-24, 160-24},
-                    {460-24, 160-24},
-                    {340-24, 290-24},
-                    {460-24, 290-24},
+                    {400-24, 225-24},
+                    {400-24, 125-24},
+                    {400-24, 325-24},
                     }
 
-local p1 = Player(0, 0, spritesheet, plAnims, colors.aqua, step3)
-local p2 = Player(0, 0, spritesheet, plAnims, colors.orange, step4)
+local p1 = Player(0, 0, spritesheet, plAnims, colors.aqua, 'step1')
+local p2 = Player(0, 0, spritesheet, plAnims, colors.orange, 'step2')
 
 local maxScore = 5
 local scores = {0, 0}
@@ -64,7 +62,8 @@ end
 
 function gameScreen:reset()
     screen:setShake(10)
-    exp3:play()
+    TEsound.play(exp3)
+    TEsound.volume('bgm', maxVolome)
     scores[1], scores[2] = 0, 0
     gameEnd = false
     for i,ball in ipairs(balls) do
@@ -93,6 +92,7 @@ end
 
 function gameScreen:update(dt)
     Timer.update(dt)
+    TEsound.cleanup()
 
     local anyInputPressed = false
     if scores[1] >= maxScore or scores[2] >= maxScore then
