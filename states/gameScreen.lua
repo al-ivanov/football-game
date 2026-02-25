@@ -40,8 +40,8 @@ local ballLocs = {
                     }
 
 local goalboxes = {
-                Goalbox(7, 5 * 32, 57, 128),
-                Goalbox(gameW - 64, 5 * 32, 57, 128)
+                Goalbox(16, 5 * 32, 48, 128),
+                Goalbox(gameW - 64, 5 * 32, 48, 128)
 }
 
 local p1 = Player(0, 0, spritesheet, plAnims, colors.aqua, 'step1')
@@ -126,12 +126,12 @@ function gameScreen:update(dt)
     p1:update(dt, dx, dy)
 
     --keypresses
-    if p1input:pressed('action') then
+    if not gameEnd and p1input:pressed('action') then
         anyInputPressed = true
         p1:action(balls)
     end
 
-    if p1input:pressed('reset') and gameEnd then
+    if not gameEnd and p1input:pressed('reset') and gameEnd then
         anyInputPressed = true
         self:reset()
     end
