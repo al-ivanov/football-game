@@ -4,8 +4,12 @@ function Player:init(cx, cy, sheet, anims, num, color, sndTag)
     -- visual
     self.id = 'player'
     self.sheet = sheet
-    self.anims = anims
-    self.curAnim = anims[1]
+    -- Clone so players do not share animation timers.
+    self.anims = {}
+    for i, anim in ipairs(anims) do
+        self.anims[i] = anim:clone()
+    end
+    self.curAnim = self.anims[1]
     self.num = num
     self.color = color
     self.sndTag = sndTag
