@@ -74,14 +74,21 @@ function gameScreen:reset()
     gameEnd = false
     for i,ball in ipairs(balls) do
         ball.velVec.x, ball.velVec.y = 0, 0
+        ball.status = 0
+        ball.auraColor = colors.white
+        ball.opacity = 0.6
         local newLoc = ballLocs[i]
         world:update(ball, newLoc[1], newLoc[2])
         ball.pos.x, ball.pos.y =  newLoc[1], newLoc[2]
     end
-    
+
+    p1.grabbedBalls = {}
+    p1.ringRadius = telekinesisRadius
     p1:teleport(224, 208)
     p1.facing = 1
-    
+
+    p2.grabbedBalls = {}
+    p2.ringRadius = telekinesisRadius
     p2:teleport(544, 208)
     p2.facing = -1
 
