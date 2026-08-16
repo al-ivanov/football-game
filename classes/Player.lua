@@ -4,8 +4,13 @@ function Player:init(cx, cy, sheet, anims, num, color, sndTag)
     -- visual
     self.id = 'player'
     self.sheet = sheet
-    self.anims = anims
-    self.curAnim = anims[1]
+    -- Each player needs its own animation instances; sharing them doubles
+    -- update(dt) when both use the same pose and skews perceived speed.
+    self.anims = {}
+    for i, anim in ipairs(anims) do
+        self.anims[i] = anim:clone()
+    end
+    self.curAnim = self.anims[1]
     self.num = num
     self.color = color
     self.sndTag = sndTag
