@@ -45,7 +45,7 @@ function startScreen:enter()
     colorSwitchStartTime = lt.getTime()
     muteStartTime = lt.getTime()
     muted = false
-    TEsound.volume('bgm', fullVol)
+    TEsound.volume('bgm', volumeState)
 end
 
 function startScreen:update(dt)
