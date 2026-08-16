@@ -40,10 +40,12 @@ love .
 ## Структура проекта
 
 ```
-main.lua          — точка входа, ввод, глобальные настройки
-conf.lua          — конфиг окна LÖVE
+main.lua          — точка входа LÖVE
+config.lua        — игровые константы
+input.lua         — привязки клавиатуры / геймпадов
+audio.lua         — загрузка BGM и SFX
 classes/          — Player, Ball, Goal, Wall, …
-states/           — startScreen, gameScreen, pauseScreen
+states/           — startScreen, gameScreen
 libs/             — сторонние библиотеки (bump, anim8, baton, …)
 assets/           — спрайты, шрифты, звук
 ```
