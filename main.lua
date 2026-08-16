@@ -105,7 +105,7 @@ telekinesisRadius = 80
 smlTelekinesisRadius = 50
 kickStr = 2
 launchStr = 45
-volumeState = 1
+volumeState = maxVolome
 debug = false
 
 -- classes
@@ -142,7 +142,7 @@ function love.keypressed(k)
     elseif k == 'q' or k == 'escape' then
         le.quit()
     elseif k == 'm' then
-        if volumeState == maxVolome then
+        if volumeState > 0 then
             volumeState = 0
         else
             volumeState = maxVolome

@@ -69,19 +69,26 @@ end
 function gameScreen:reset()
     screen:setShake(10)
     TEsound.play(exp3)
-    TEsound.volume('bgm', maxVolome)
+    TEsound.volume('bgm', volumeState)
     scores[1], scores[2] = 0, 0
     gameEnd = false
     for i,ball in ipairs(balls) do
         ball.velVec.x, ball.velVec.y = 0, 0
+        ball.status = 0
+        ball.auraColor = colors.white
+        ball.opacity = 0.6
         local newLoc = ballLocs[i]
         world:update(ball, newLoc[1], newLoc[2])
         ball.pos.x, ball.pos.y =  newLoc[1], newLoc[2]
     end
-    
+
+    p1.grabbedBalls = {}
+    p1.ringRadius = telekinesisRadius
     p1:teleport(224, 208)
     p1.facing = 1
-    
+
+    p2.grabbedBalls = {}
+    p2.ringRadius = telekinesisRadius
     p2:teleport(544, 208)
     p2.facing = -1
 
@@ -175,14 +182,15 @@ function gameScreen:update(dt)
     end
 
     if not anyInputPressed then
-        if not countingIdleTime then
-            countingIdleTime = true
+        if not countingIdle then
+            countingIdle = true
             timeIdleStart = lt.getTime()
         else
             timeIdle = lt.getTime() - timeIdleStart
         end
     else
-        countingIdleTime = false
+        countingIdle = false
+        timeIdle = 0
     end
     
     -- update balls
@@ -251,7 +259,7 @@ function gameScreen:draw()
         lg.printf('OVER', -20, 20, gameW, 'right')
     end
 
-    if countingIdleTime and timeIdle > maxIdleTime - 6 then 
+    if countingIdle and timeIdle > maxIdleTime - 6 then 
         lg.setColor(0, 0, 0, 0.9)
         lg.rectangle('fill', 100, 180, 600, 100)
         lg.setColor(1, 1, 1, 0.9)

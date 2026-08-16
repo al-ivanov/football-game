@@ -72,7 +72,8 @@ function Player:update(dt, dx, dy)
     end
     
     -- if isGrabbing, attempt to move all grabbed balls with you
-    for i,ball in ipairs(self.grabbedBalls) do
+    for i = #self.grabbedBalls, 1, -1 do
+        local ball = self.grabbedBalls[i]
         if (self:getCenter() - ball:getCenter()):len() < telekinesisRadius then
             ball.velVec = vec(dx * self.spd, dy * self.spd)
         else
