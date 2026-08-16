@@ -4,8 +4,7 @@ function Player:init(cx, cy, sheet, anims, num, color, sndTag)
     -- visual
     self.id = 'player'
     self.sheet = sheet
-    -- Each player needs its own animation instances; sharing them doubles
-    -- update(dt) when both use the same pose and skews perceived speed.
+    -- Clone so players do not share animation timers.
     self.anims = {}
     for i, anim in ipairs(anims) do
         self.anims[i] = anim:clone()
