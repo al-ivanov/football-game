@@ -47,6 +47,16 @@ local goalboxes = {
 local p1 = Player(0, 0, spritesheet, plAnims, 1, colors.aqua, 'step1')
 local p2 = Player(0, 0, spritesheet, plAnims, 2, colors.orange, 'step2')
 
+local spawnPoints = {
+    [1] = {x = 224, y = 208, facing = 1},
+    [2] = {x = 544, y = 208, facing = -1},
+}
+
+local playerControls = {
+    {player = p1, input = p1input},
+    {player = p2, input = p2input},
+}
+
 local maxScore = 5
 local scores = {0, 0}
 local gameEnd = false
@@ -66,6 +76,47 @@ for i,ball in ipairs(balls) do
     ball.pos.x, ball.pos.y = newLoc[1], newLoc[2]
 end
 
+local function resetPlayer(player)
+    local spawn = spawnPoints[player.num]
+    player.grabbedBalls = {}
+    player.ringRadius = telekinesisRadius
+    player:teleport(spawn.x, spawn.y)
+    player.facing = spawn.facing
+end
+
+local function handlePlayerInput(player, input, dt, onReset)
+    input:update()
+
+    local dx, dy = 0, 0
+    local ix, iy = input:get('move')
+    local inputPressed = ix ~= 0 or iy ~= 0
+
+    if iy < 0 then dy = dy - 1 end
+    if iy > 0 then dy = dy + 1 end
+    if ix < 0 then dx = dx - 1 end
+    if ix > 0 then dx = dx + 1 end
+
+    player:update(dt, dx, dy)
+
+    if input:pressed('action') then
+        inputPressed = true
+        player:action(balls)
+    end
+
+    if input:pressed('reset') and gameEnd then
+        inputPressed = true
+        onReset()
+    end
+
+    if player.pos.x < -player.w or player.pos.x > gameW
+        or player.pos.y < -player.h or player.pos.y > gameH then
+        local spawn = spawnPoints[player.num]
+        player:teleport(spawn.x, spawn.y)
+    end
+
+    return inputPressed
+end
+
 function gameScreen:reset()
     screen:setShake(10)
     TEsound.play(exp3)
@@ -82,15 +133,9 @@ function gameScreen:reset()
         ball.pos.x, ball.pos.y =  newLoc[1], newLoc[2]
     end
 
-    p1.grabbedBalls = {}
-    p1.ringRadius = telekinesisRadius
-    p1:teleport(224, 208)
-    p1.facing = 1
-
-    p2.grabbedBalls = {}
-    p2.ringRadius = telekinesisRadius
-    p2:teleport(544, 208)
-    p2.facing = -1
+    for _, control in ipairs(playerControls) do
+        resetPlayer(control.player)
+    end
 
     --timeout vars
     countingIdle = false
@@ -100,7 +145,7 @@ end
 
 function gameScreen:enter()
     lg.setFont(fontBig)
-    self.reset()
+    self:reset()
 end
 
 function gameScreen:update(dt)
@@ -117,68 +162,17 @@ function gameScreen:update(dt)
     if gameEnd then 
         rcanim:update(dt) 
     end
-    
-    local dx, dy = 0, 0
+
     screen:update(dt)
-    
-    -- p1 input
-    p1input:update()
-    --movement
-    local ix, iy = p1input:get('move')
-    if iy ~= 0 or ix ~= 0 then
-        anyInputPressed = true
-    end
-    if (iy < 0) then dy = dy - 1 end
-    if (iy > 0) then dy = dy + 1 end
-    if (ix < 0) then dx = dx - 1 end
-    if (ix > 0) then dx = dx + 1 end
-    
-    p1:update(dt, dx, dy)
 
-    --keypresses
-    if p1input:pressed('action') then
-        anyInputPressed = true
-        p1:action(balls)
-    end
-
-    if p1input:pressed('reset') and gameEnd then
-        anyInputPressed = true
+    local function onReset()
         self:reset()
     end
 
-    if p1.pos.x < -p1.w or p1.pos.x > gameW or p1.pos.y < -p1.h or p1.pos.y > gameH then
-        p1:teleport(224, 208)
-    end
-    
-    -- p2 input
-    p2input:update()
-    --movement
-    dx, dy = 0, 0
-    ix, iy = 0, 0
-    ix, iy = p2input:get('move')
-    if iy ~= 0 or ix ~= 0 then
-        anyInputPressed = true
-    end
-    if (iy < 0) then dy = dy - 1 end
-    if (iy > 0) then dy = dy + 1 end
-    if (ix < 0) then dx = dx - 1 end
-    if (ix > 0) then dx = dx + 1 end
-
-    p2:update(dt, dx, dy)
-
-    --keypresses
-    if p2input:pressed('action') then
-        anyInputPressed = true
-        p2:action(balls)
-    end
-
-    if p2input:pressed('reset') and gameEnd then
-        anyInputPressed = true
-        self:reset()
-    end
-
-    if p2.pos.x < -p2.w or p2.pos.x > gameW or p2.pos.y < -p2.h or p2.pos.y > gameH then
-        p2:teleport(544, 208)
+    for _, control in ipairs(playerControls) do
+        if handlePlayerInput(control.player, control.input, dt, onReset) then
+            anyInputPressed = true
+        end
     end
 
     if not anyInputPressed then
